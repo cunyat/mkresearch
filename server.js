@@ -2,11 +2,12 @@ const express = require("express");
 
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+require("colors");
 
-const connectDB = require("./config/db");
+const connectDB = require("./src/config/db");
 
 // Initialize config
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: "./src/config/.env" });
 
 // Connect to database
 connectDB();
@@ -14,7 +15,10 @@ connectDB();
 // Initialize express
 const app = express();
 
+// Body parser
 app.use(express.json());
+
+// Log level
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 const PORT = process.env.PORT || 5000;
