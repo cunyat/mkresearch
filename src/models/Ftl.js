@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const FtlSchema = new mongoose.Schema({
+  contactId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Contact",
+    required: false,
+  },
   domain: {
     type: String,
     trim: true,

@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const psl = require("psl");
 
 const DuxsoupSchema = new mongoose.Schema({
+  contactId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Contact",
+    required: false,
+  },
   duxid: {
     type: String,
     required: true,
@@ -21,6 +26,7 @@ const DuxsoupSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  middlename: { type: String, trim: true },
   lastname: {
     type: String,
     trim: true,
@@ -64,10 +70,13 @@ const DuxsoupSchema = new mongoose.Schema({
   },
 });
 
-// Set domain if not specified
-DuxsoupSchema.pre("save", function (next) {
+// Set domain if not specified, removes initial https:// and anything after first /
+DuxsoupSchema.pre("save", function presave(next) {
   if (!this.companyDomain && this.companyWebsite) {
-    this.companyDomain = psl.get(this.companyWebsite);
+    this.companyDomain = psl.get(
+      this.companyWebsite.replace(/^https?:\/\//, "").replace(/\/.*/g, "")
+    );
+    // console.log(this.companyDomain);
   }
   next();
 });

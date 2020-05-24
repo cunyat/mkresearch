@@ -6,13 +6,17 @@ const parseBuiltWith = (filePath) => {
   return _parseFile(csvConf.builtwith, filePath);
 };
 
+const parseDuxSoup = (filePath) => {
+  return _parseFile(csvConf.duxsoup, filePath);
+};
+
 const _parseFile = (options, filePath) => {
   const opt = {
     mapHeaders: ({ header }) => options.mapping[header],
     mapValues: ({ header, value }) =>
       options.fieldParse[header]
         ? options.fieldParse[header](value)
-        : value
+        : value === "" || value === " "
         ? undefined
         : value,
     ...options.options,
@@ -28,4 +32,4 @@ const _parseFile = (options, filePath) => {
   });
 };
 
-module.exports = { parseBuiltWith };
+module.exports = { parseBuiltWith, parseDuxSoup };
