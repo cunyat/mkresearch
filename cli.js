@@ -1,33 +1,19 @@
 const dotenv = require("dotenv");
 require("colors");
-const axios = require("axios");
-const contacts = require("./data/sport.contacts");
-const companies = require("./data/sport.companies");
-const mongoClient = require("mongodb").MongoClient;
+// const connectDB = require("./src/config/db");
+dotenv.config({ path: "./src/config/.env" });
 
-dotenv.config({ path: "./config/config.env" });
+// // Connect to database
+// (async function () {
+//   await connectDB(() => {
+//     service.createCompanies(companies);
+//   });
+// })();
 
-async function conectDatabase() {
-  const client = new mongoClient(process.env.MONGODB_URI, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
+const csvParser = require("./src/services/csvParser");
+const path = require("path");
 
-  client.connect(async function (err) {
-    if (err) {
-      console.log(`ERROR ${err}`.bgRed);
-      return;
-    }
-    console.log("Connect succesful".bgGreen.black);
-    const db = client.db("Leads");
-    let count = 0;
-
-    await db
-      .collection("contacts")
-      .updateMany({}, { $set: { status: "research" } });
-
-    client.close();
-  });
-}
-
-conectDatabase();
+csvParser
+  .parseBuiltWith(path.join(__dirname, "data/sports-builtwith.csv"))
+  .then((results) => console.log(results))
+  .catch((e) => console.error(e));
