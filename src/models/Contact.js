@@ -44,20 +44,16 @@ var ContactSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
 
-  linkedin: {
-    profile: { type: String, trim: true, required: false },
-    sales: { type: String, trim: true, required: false },
-    douxsoupId: { type: String, trim: true, required: false },
-  },
-  hubspot: {
-    contactId: { type: String, trim: true, required: false },
-    createdAt: { type: Date, required: false },
-    modifiedAt: { type: Date, required: false },
-    ownerName: { type: String, trim: true, required: false },
-    leadStatus: { type: String, trim: true, required: false },
-    lifecycleStage: { type: String, trim: true, required: false },
-    subscriptionStatus: { type: String, trim: true, required: false },
-  },
+  linkedinProfile: { type: String, trim: true, required: false },
+  linkedinSales: { type: String, trim: true, required: false },
+
+  contactId: { type: String, trim: true, required: false },
+  createdAt: { type: Date, required: false },
+  modifiedAt: { type: Date, required: false },
+  owner: { type: String, trim: true, required: false },
+  leadStatus: { type: String, trim: true, required: false },
+  lifecycleStage: { type: String, trim: true, required: false },
+  subscriptionStatus: { type: String, trim: true, required: false },
 });
 
 ContactSchema.virtual("company", {

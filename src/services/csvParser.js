@@ -10,6 +10,10 @@ const parseDuxSoup = (filePath) => {
   return _parseFile(csvConf.duxsoup, filePath);
 };
 
+const parseHubspotCompanies = (filePath) => {
+  return _parseFile(csvConf.hsCompany, filePath);
+};
+
 const _parseFile = (options, filePath) => {
   const opt = {
     mapHeaders: ({ header }) => options.mapping[header],
@@ -32,4 +36,4 @@ const _parseFile = (options, filePath) => {
   });
 };
 
-module.exports = { parseBuiltWith, parseDuxSoup };
+module.exports = { parseBuiltWith, parseDuxSoup, parseHubspotCompanies };

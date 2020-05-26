@@ -87,7 +87,28 @@ module.exports = {
   ftlSocial: {},
   ftlLookup: {},
   hsContact: {},
-  hsCompany: {},
+  hsCompany: {
+    mapping: {
+      "Company ID": "companyId",
+      Name: "name",
+      "Company Domain Name": "domain",
+      "Website URL": "websiteUrl",
+      "Phone Number": "phone",
+      Vertical: "vertical",
+      "Size ": "size",
+      "New Tier": "tier",
+      Source: "source",
+      "LinkedIn Company Page": "linkedin",
+      "Lead Status": "leadStatus",
+      "Lifecycle Stage": "lifecycleStage",
+      "Subscription status": "subscriptionStatus",
+      "Company owner": "owner",
+    },
+    fieldParse: {
+      phone: (value) =>
+        value ? value.replace("+", "00").replace(/\s/g, "") : undefined,
+    },
+  },
   contact: {},
   company: {},
 };

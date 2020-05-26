@@ -68,6 +68,11 @@ const DuxsoupSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  list: {
+    type: String,
+    trim: true,
+    required: true,
+  },
 });
 
 // Set domain if not specified, removes initial https:// and anything after first /

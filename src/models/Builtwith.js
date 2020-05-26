@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 
+const Company = require("./Company");
+
 const BuiltwithSchema = new mongoose.Schema({
+  companyId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Company",
+    required: false,
+  },
   domain: {
     type: String,
     required: [true, "Please provide a domain"],
@@ -49,6 +56,27 @@ const BuiltwithSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  validation: {
+    type: String,
+    required: true,
+    default: "Pending",
+    enum: [
+      "Pending",
+      "Ecomm",
+      "B2B Ecomm",
+      "Manufacturer",
+      "No Ecomm",
+      "Not Target",
+    ],
+  },
+});
+
+BuiltwithSchema.pre("save", async function (next) {
+  if (!this.companyId) {
+    const company = await Company.findOne({ domain: this.domain });
+    if (company) this.companyId = company._id;
+  }
+  next();
 });
 
 BuiltwithSchema.method("hasEmail", function () {
