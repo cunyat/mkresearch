@@ -165,9 +165,8 @@ const iterincom = {
 };
 
 // validateBuiltWithDomains();
-
 // importAndCreateBuiltwith();
-importAndCreateCompaniesHubspot();
+// importAndCreateCompaniesHubspot();
 
 (async function () {
   await connectDB(async (conn) => {
