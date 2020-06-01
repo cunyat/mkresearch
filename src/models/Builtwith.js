@@ -43,7 +43,6 @@ const BuiltwithSchema = new mongoose.Schema({
   alexa: Number,
   majestic: Number,
   umbrellla: Number,
-
   city: {
     type: String,
     trim: true,
@@ -56,6 +55,31 @@ const BuiltwithSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  ourVertical: {
+    type: String,
+    trim: true,
+    enum: [
+      "Fashion & Footwear",
+      "Jewelry",
+      "Toy Store",
+      "Costumes",
+      "Pharma",
+      "Consumer Electronics",
+      "Gardening",
+      "Crafts",
+      "Food & drinks",
+      "Sport",
+      "Furniture",
+      "Pets",
+      "Wine",
+      "Cosmetics",
+      "Cleaning products",
+      "Childcare",
+      "Miscelania",
+      "Consumer Goods",
+      "Automotive",
+    ],
+  },
   validation: {
     type: String,
     required: true,
@@ -65,9 +89,15 @@ const BuiltwithSchema = new mongoose.Schema({
       "Ecomm",
       "B2B Ecomm",
       "Manufacturer",
-      "No Ecomm",
+      "Not Ecomm",
+      "Small",
       "Not Target",
     ],
+  },
+  list: {
+    type: String,
+    required: [true, "Please specify a list"],
+    trim: true,
   },
 });
 

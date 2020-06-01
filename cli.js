@@ -23,7 +23,7 @@ function importAndCreateDuxsoup() {
 function importAndCreateCompaniesHubspot() {
   csvParser
     .parseHubspotCompanies(
-      path.join(__dirname, "data/companies-hubspot-2020-05-26.csv")
+      path.join(__dirname, "data/companies-hubspot-2020-05-28.csv")
     )
     .then((results) => {
       console.log(`imported ${results.length} from Hubspot CSV`);
@@ -105,10 +105,69 @@ const validateBuiltWithDomains = () => {
   });
 };
 
+const iterincom = {
+  estimations: {
+    site_worth: "$1,091",
+    visitors: {
+      daily: "498",
+      monthly: "14,940",
+      yearly: "181,770",
+    },
+    pageviews: {
+      daily: "1,495",
+      monthly: "44,850",
+      yearly: "545,675",
+    },
+    revenue: {
+      daily: "$1",
+      monthly: "$45",
+      yearly: "$545",
+    },
+  },
+  alexa: {
+    rank: {
+      "3_months": "687698",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+    rank_delta: {
+      "3_months": "-2920789",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+    reach: {
+      "3_months": "733580",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+    reach_delta: {
+      "3_months": "-2439398",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+    pageviews: {
+      "3_months": "0.04",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+    pageviews_delta: {
+      "3_months": "+2000%",
+      "1_month": null,
+      "7_days": null,
+      "1_day": null,
+    },
+  },
+};
+
 // validateBuiltWithDomains();
 
 // importAndCreateBuiltwith();
-// importAndCreateCompaniesHubspot();
+importAndCreateCompaniesHubspot();
 
 (async function () {
   await connectDB(async (conn) => {

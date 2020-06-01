@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const FtlSchema = new mongoose.Schema({
+const FtleadSchema = new mongoose.Schema({
   contactId: {
     type: mongoose.Schema.ObjectId,
     ref: "Contact",
@@ -41,4 +41,4 @@ const FtlSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Ftl", FtlSchema);
+module.exports = mongoose.model("Ftlead", FtleadSchema);
