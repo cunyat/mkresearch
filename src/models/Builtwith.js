@@ -55,6 +55,7 @@ const BuiltwithSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+
   ourVertical: {
     type: String,
     trim: true,
@@ -92,6 +93,8 @@ const BuiltwithSchema = new mongoose.Schema({
       "Not Ecomm",
       "Small",
       "Not Target",
+      "In CRM",
+      "International",
     ],
   },
   list: {
@@ -99,13 +102,21 @@ const BuiltwithSchema = new mongoose.Schema({
     required: [true, "Please specify a list"],
     trim: true,
   },
+  sitetraffic: {},
+  monthlyVisits: Number,
+  monthlyUsers: Number,
+  techs: { type: [String], trim: true },
 });
 
 BuiltwithSchema.pre("save", async function (next) {
   if (!this.companyId) {
     const company = await Company.findOne({ domain: this.domain });
-    if (company) this.companyId = company._id;
+    if (company) {
+      this.companyId = company._id;
+      if (company.companyId) this.validation = "In CRM";
+    }
   }
+
   next();
 });
 

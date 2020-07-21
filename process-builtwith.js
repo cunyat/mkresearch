@@ -9,7 +9,7 @@ const Builtwith = require("./src/models/Builtwith");
 dotenv.config({ path: "./src/config/.env" });
 
 const BROWSER_WS =
-  "ws://localhost:9876/devtools/browser/b1a912b2-0267-47ac-a3e2-3d392b8fada7";
+  "ws://localhost:9876/devtools/browser/f6938f86-4181-4964-88ec-5a4727b26357";
 const LNK_URL = "https://www.linkedin.com/sales/search/company?keywords=";
 const VERTICALS = [
   "Fashion & Footwear",
@@ -39,11 +39,10 @@ const run = async () => {
   connectDB(async (conn) => {
     mongoose = conn;
     const records = await Builtwith.find({
-      validation: {
-        $in: ["Ecomm", "B2B Ecomm", "Manufacturer"],
-      },
-      ourVertical: { $exists: false },
+      validation: "Pending",
+      list: { $in: ["salesforce-stores", "magento-stores"] },
     });
+
     browser = await puppeteer.connect({
       browserWSEndpoint: BROWSER_WS,
       defaultViewport: null,
@@ -70,27 +69,34 @@ const run = async () => {
       );
       console.log(record);
       try {
-        await linkedin.goto(LNK_URL + record.domain.split(".")[0]);
+        linkedin
+          .goto(LNK_URL + record.domain.split(".")[0])
+          .catch((err) => console.log("Error navigating".bgRed));
         website
           .goto(`http://${record.domain}`)
           .catch((err) => console.log("Error navigating".bgRed));
       } catch (err) {
         console.log("Error navigating".bgRed);
       }
-      // const valid = prompt("Valid (E), NE, M, B, NT, S ? ", "E");
+
+      // Validation
+      const valid = prompt("Valid (E), NE, M, B, NT, S, I ? ", "E");
+
+      record.validation = parseValidation(valid);
+
       const answer = VERTICALS.map((val, i) => `${i} - ${val}`).join("\n");
-      const vertical = prompt("Pick vertical: \n" + answer, 9);
+      console.log("Pick vertical: \n" + answer + "\n");
+      const vertical = prompt("- ", 9);
       if (vertical != "q") {
         record.ourVertical = VERTICALS[vertical];
       }
 
-      const linkedinPage = prompt("Linkedin: ", null);
-      if (linkedinPage) record.linkedin = linkedinPage;
+      if (!record.linkedin) {
+        const linkedinPage = prompt("Linkedin: ", null);
+        if (linkedinPage) record.linkedin = linkedinPage;
+      }
 
       await record.save();
-
-      // record.validation = parseValidation(valid);
-      // await record.save();
 
       const action = prompt("Continue? ", "Y");
       if (action.toLowerCase() === "q") {
@@ -117,6 +123,8 @@ const parseValidation = (valid) => {
       return "Not Target";
     case "s":
       return "Small";
+    case "i":
+      return "International";
     default:
       return undefined;
   }
